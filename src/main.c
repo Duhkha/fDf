@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "../libft/libft.h"
 #include "../libft/get_next_line.h"
+#include "fdf.h"
 
 void rotate(void *mlx, void *win, int x, int y)
 {
@@ -43,6 +44,7 @@ int		main(int argc, char **argv)
 	int		row_count;
 	int		col_count;
 	int		len;
+	struct Grids grid;
 
 	row_count = 0;
 	col_count = 0;
@@ -55,18 +57,16 @@ int		main(int argc, char **argv)
 	while (get_next_line(fd, &row))
 		{
 			split = ft_strsplit((const char*)row, ' ');
-			ft_putnbr(len);
-			ft_putchar('\n');
 			col_count = 0;
-			while(col_count < 21)
+			while(split[col_count] != NULL)
 			{
 				map[row_count][col_count] = ft_atoi((const char*)split[col_count]);
-				ft_putnbr(map[row_count][col_count]);
 				col_count++;
 			}
 			row_count++;
 			free(split);
 		}
+	grid.x0 = (int *)malloc(sizeof(int *) * (row_count * col_count));
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 420, 420, "42");
 	line(mlx, win, 50, 50, 100, 50);
