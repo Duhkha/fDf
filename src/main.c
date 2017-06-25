@@ -89,17 +89,17 @@ int		main(int argc, char **argv)
 		height = 1;
 		for (int j = 0; j < (col_count); j++)
 		{
-			if (cell[i][j].height != 0)
-				height = cell[i][j].height * 5;
+		//	if (cell[i][j].height != 0)
+		//		height = cell[i][j].height;
 			x += gap;
 			cell[i][j].x0 = x;
 			cell[i][j].y0 = y;
 			cell[i][j].x1 = x + gap;
-			cell[i][j].y1 = y + height;
+			cell[i][j].y1 = y + cell[i][j].height;
 			cell[i][j].x2 = x;
 			cell[i][j].y2 = y + gap;
 			cell[i][j].x3 = x + gap;
-			cell[i][j].y3 = (y + gap) + height;
+			cell[i][j].y3 = (y + gap) + cell[i][j].height;
 			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x1, cell[i][j].y1);
 			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x2, cell[i][j].y2);
 			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i][j].x3, cell[i][j].y3);
