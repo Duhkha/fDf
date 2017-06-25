@@ -67,6 +67,13 @@ int		main(int argc, char **argv)
 			free(split);
 		}
 	grid.x0 = (int *)malloc(sizeof(int *) * (row_count * col_count));
+	grid.x1 = (int *)malloc(sizeof(int *) * (row_count * col_count));
+	grid.x2 = (int *)malloc(sizeof(int *) * (row_count * col_count));
+	grid.x3 = (int *)malloc(sizeof(int *) * (row_count * col_count));
+	grid.y0 = (int *)malloc(sizeof(int *) * (row_count * col_count));
+	grid.y1 = (int *)malloc(sizeof(int *) * (row_count * col_count));
+	grid.y2 = (int *)malloc(sizeof(int *) * (row_count * col_count));
+	grid.y3 = (int *)malloc(sizeof(int *) * (row_count * col_count));
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 420, 420, "42");
 	line(mlx, win, 50, 50, 100, 50);
