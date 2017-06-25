@@ -34,37 +34,38 @@ int		main(int argc, char **argv)
 {
 	void	*mlx;
 	void	*win;
-	int		x;
-	int		y;
+//	int		x;
+//	int		y;
 	int		fd;
 	char	*row;
-	int		*map[100];
-	int		buff[5];
-	int		bytesread;
-	int		ttlbytes;
+	int		map[100][100];
 	char	**split;
 	int		row_count;
 	int		col_count;
+	int		len;
 
 	row_count = 0;
 	col_count = 0;
-	ttlbytes = 0;
 	if (argc != 2)
 	{
-		write(1, "Wrong number of arguments.\n", 26);
+		write(1, "Wrong number of arguments.\n", 28);
 		return (0);
 	}
 	fd = open(argv[1], O_RDONLY);
 	while (get_next_line(fd, &row))
 		{
 			split = ft_strsplit((const char*)row, ' ');
+			ft_putnbr(len);
+			ft_putchar('\n');
 			col_count = 0;
-			while(split[row_count][col_count])
+			while(col_count < 21)
 			{
 				map[row_count][col_count] = ft_atoi((const char*)split[col_count]);
+				ft_putnbr(map[row_count][col_count]);
 				col_count++;
 			}
 			row_count++;
+			free(split);
 		}
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 420, 420, "42");
