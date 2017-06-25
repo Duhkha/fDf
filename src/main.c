@@ -45,7 +45,10 @@ int		main(int argc, char **argv)
 	int		row_count;
 	int		col_count;
 	int		len;
-//	struct grid **cell;
+	int		height;
+
+	height = 1;
+	grid cell[20][20];
 
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 1000, 1000, "42");
@@ -73,9 +76,9 @@ int		main(int argc, char **argv)
 			row_count++;
 			free(split);
 		}
-	grid **cell = (grid **)malloc(sizeof(grid *) * row_count);
-	for (int i = 0; i < col_count; i++)
-		cell[i] = (grid *)malloc(sizeof(grid) * col_count);
+	//grid **cell = (grid **)malloc(sizeof(grid *) * row_count);
+	//for (int i = 0; i < col_count; i++)
+	//	cell[i] = (grid *)malloc(sizeof(grid) * col_count);
 	for (int i = 0; i < row_count; i++)
 		for (int j = 0; j < col_count; j++)
 			cell[i][j].height = map[i][j];
@@ -83,17 +86,20 @@ int		main(int argc, char **argv)
 	{
 		y += gap;
 		x = 400;
+		height = 1;
 		for (int j = 0; j < (col_count); j++)
 		{
+			if (cell[i][j].height != 0)
+				height = cell[i][j].height * 5;
 			x += gap;
 			cell[i][j].x0 = x;
 			cell[i][j].y0 = y;
 			cell[i][j].x1 = x + gap;
-			cell[i][j].y1 = y;
+			cell[i][j].y1 = y + height;
 			cell[i][j].x2 = x;
 			cell[i][j].y2 = y + gap;
 			cell[i][j].x3 = x + gap;
-			cell[i][j].y3 = y + gap;
+			cell[i][j].y3 = (y + gap) + height;
 			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x1, cell[i][j].y1);
 			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x2, cell[i][j].y2);
 			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i][j].x3, cell[i][j].y3);
