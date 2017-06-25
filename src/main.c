@@ -35,8 +35,9 @@ int		main(int argc, char **argv)
 {
 	void	*mlx;
 	void	*win;
-//	int		x;
-//	int		y;
+	int		x;
+	int		y;
+	int		gap;
 	int		fd;
 	char	*row;
 	int		map[100][100];
@@ -44,8 +45,14 @@ int		main(int argc, char **argv)
 	int		row_count;
 	int		col_count;
 	int		len;
-	struct Grids grid;
+//	struct grid **cell;
 
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, 1000, 1000, "42");
+	//mlx_loop(mlx);
+	x = 0;
+	y = 100;
+	gap = 35;
 	row_count = 0;
 	col_count = 0;
 	if (argc != 2)
@@ -66,15 +73,34 @@ int		main(int argc, char **argv)
 			row_count++;
 			free(split);
 		}
-	for(int i = 0; i < row_count; i++)
+	grid **cell = (grid **)malloc(sizeof(grid *) * row_count);
+	for (int i = 0; i < col_count; i++)
+		cell[i] = (grid *)malloc(sizeof(grid) * col_count);
+	for (int i = 0; i < row_count; i++)
 		for (int j = 0; j < col_count; j++)
-			grid.map[i][j] = map[i][j];
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 420, 420, "42");
-	line(mlx, win, 50, 50, 100, 50);
-	line(mlx, win, 50, 100, 100, 100);
-	line(mlx, win, 50, 50, 50, 100);
-	line(mlx, win, 100, 50, 100, 100);
+			cell[i][j].height = map[i][j];
+	for (int i = 0; i < row_count; i++)
+	{
+		y += gap;
+		x = 400;
+		for (int j = 0; j < (col_count); j++)
+		{
+			x += gap;
+			cell[i][j].x0 = x;
+			cell[i][j].y0 = y;
+			cell[i][j].x1 = x + gap;
+			cell[i][j].y1 = y;
+			cell[i][j].x2 = x;
+			cell[i][j].y2 = y + gap;
+			cell[i][j].x3 = x + gap;
+			cell[i][j].y3 = y + gap;
+			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x1, cell[i][j].y1);
+			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x2, cell[i][j].y2);
+			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i][j].x3, cell[i][j].y3);
+			line(mlx, win, cell[i][j].x1, cell[i][j].y1, cell[i][j].x3, cell[i][j].y3);
+		
+		}
+	}
 	mlx_loop(mlx);
 	return (0);
 }
