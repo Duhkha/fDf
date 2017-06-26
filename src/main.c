@@ -6,7 +6,7 @@
 /*   By: syoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 06:37:17 by syoung            #+#    #+#             */
-/*   Updated: 2017/06/26 08:03:10 by syoung           ###   ########.fr       */
+/*   Updated: 2017/06/26 08:34:40 by syoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		main(int argc, char **argv)
 	int		xyh3;
 	int		multi;
 
-	multi = 2;
+	multi = 3;
 	height = 0;
 	grid cell[20][20];
 
@@ -104,10 +104,6 @@ int		main(int argc, char **argv)
 	{
 		y += gap;
 		x = 400;
-		xyh0 = 0;
-		xyh1 = 0;
-		xyh2 = 0;
-		xyh3 = 0;
 		for (int j = 0; j < (col_count); j++)
 		{
 			xyh0 = 0;
@@ -122,7 +118,7 @@ int		main(int argc, char **argv)
 					xyh2 = xyh0;
 				}
 				if (cell[i - 1][j - 1].height > 0)
-					xyh0 = cell[i][j - 1].height;
+					xyh0 = cell[i - 1][j - 1].height;
 				if (cell[i - 1][j].height > 0)
 				{
 					xyh0 = cell[i - 1][j].height;
@@ -149,10 +145,9 @@ int		main(int argc, char **argv)
 					xyh0 = cell[i][j].height;
 					xyh1 = xyh0;
 					xyh2 = xyh0;
-					xyh3 = xyh3;
+					xyh3 = xyh0;
 				}
 			}
-			printf("0: %d\n 1: %d\n 2: %d\n 3: %d\n", xyh0, xyh1, xyh2, xyh3);
 			x += gap;
 			cell[i][j].x0 = x - xyh0 * multi;
 			cell[i][j].y0 = y - xyh0 * multi;
