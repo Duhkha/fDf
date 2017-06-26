@@ -1,4 +1,4 @@
-#ifndef FD_H
+#ifndef FDF_H
 # define FDF_H
 typedef struct {
 
