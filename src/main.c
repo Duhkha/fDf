@@ -6,7 +6,7 @@
 /*   By: syoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 06:37:17 by syoung            #+#    #+#             */
-/*   Updated: 2017/06/26 08:34:40 by syoung           ###   ########.fr       */
+/*   Updated: 2017/06/26 09:09:27 by syoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "../libft/get_next_line.h"
 #include "fdf.h"
 
-void rotate(void *mlx, void *win, int x, int y)
+void	rotate(void *mlx, void *win, int x, int y)
 {
 	float x1 = (float)x;
 	float y1 = (float)y;
@@ -29,7 +29,7 @@ void rotate(void *mlx, void *win, int x, int y)
 	y1 = x1 * sin(0.523599) + y1 * cos(0.523599);
 	mlx_pixel_put(mlx, win, x1, y1, 0x00FFFFFF);
 }
-void line(void *mlx, void *win, int x0, int y0, int x1, int y1) {
+void	line(void *mlx, void *win, int x0, int y0, int x1, int y1) {
 
 	int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
 	int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1; 
@@ -64,7 +64,7 @@ int		main(int argc, char **argv)
 	int		xyh3;
 	int		multi;
 
-	multi = 3;
+	multi = 5;
 	height = 0;
 	grid cell[20][20];
 
@@ -114,7 +114,7 @@ int		main(int argc, char **argv)
 			{
 				if (cell[i][j - 1].height > 0)
 				{
-					xyh0 = cell[i][j - 1].height * 2;	
+					xyh0 = cell[i][j - 1].height;	
 					xyh2 = xyh0;
 				}
 				if (cell[i - 1][j - 1].height > 0)
@@ -161,6 +161,22 @@ int		main(int argc, char **argv)
 			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x2, cell[i][j].y2);
 			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i][j].x3, cell[i][j].y3);
 			line(mlx, win, cell[i][j].x1, cell[i][j].y1, cell[i][j].x3, cell[i][j].y3);
+			/*if (j > 0 && i > 0 && j < col_count && i < row_count)
+			{
+			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i + 1][j].x0, cell[i + 1][j].y0);
+			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j + 1].x0, cell[i][j + 1].y0);
+
+			line(mlx, win, cell[i][j].x1, cell[i][j].y1, cell[i + 1][j].x1, cell[i + 1][j].y1);
+			line(mlx, win, cell[i][j].x1, cell[i][j].y1, cell[i][j + 1].x1, cell[i][j + 1].y1);
+
+			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i + 1][j].x2, cell[i + 1][j].y2);
+			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i][j + 1].x2, cell[i][j + 1].y2);
+
+			line(mlx, win, cell[i][j].x3, cell[i][j].y3, cell[i + 1][j].x3, cell[i + 1][j].y3);
+			line(mlx, win, cell[i][j].x3, cell[i][j].y3, cell[i][j + 1].x3, cell[i][j + 1].y3);
+
+
+			} */
 
 		}
 	}
