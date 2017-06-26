@@ -6,7 +6,7 @@
 /*   By: syoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 06:37:17 by syoung            #+#    #+#             */
-/*   Updated: 2017/06/26 07:14:47 by syoung           ###   ########.fr       */
+/*   Updated: 2017/06/26 08:03:10 by syoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,13 @@ int		main(int argc, char **argv)
 	int		col_count;
 	int		len;
 	int		height;
-	int		lheight;
-	int		rheight;
-	int		bheight;
-	int		theight;
+	int		xyh0;
+	int		xyh1;
+	int		xyh2;
+	int		xyh3;
+	int		multi;
 
-	lheight = 0;
-	rheight = 0;
-	bheight = 0;
-	theight = 0;
+	multi = 2;
 	height = 0;
 	grid cell[20][20];
 
@@ -106,30 +104,64 @@ int		main(int argc, char **argv)
 	{
 		y += gap;
 		x = 400;
-		height = 1;
-		rheight = 0;
-		lheight = 0;
-		bheight = 0;
-		theight = 0;
+		xyh0 = 0;
+		xyh1 = 0;
+		xyh2 = 0;
+		xyh3 = 0;
 		for (int j = 0; j < (col_count); j++)
 		{
-			if (j < col_count)
-				rheight = -2 * cell[i][j + 1].height;
-			if (j > 0)
-				lheight = -2 * cell[i][j - 1].height;
-			if (i < row_count)
-				bheight = -2 * cell[i + 1][j].height;
-			if (i > 0)
-				theight = -2 * cell[i - 1][j].height;
+			xyh0 = 0;
+			xyh1 = 0;
+			xyh2 = 0;
+			xyh3 = 0;
+			if (j > 0 && i > 0 && j < col_count && i < row_count)
+			{
+				if (cell[i][j - 1].height > 0)
+				{
+					xyh0 = cell[i][j - 1].height * 2;	
+					xyh2 = xyh0;
+				}
+				if (cell[i - 1][j - 1].height > 0)
+					xyh0 = cell[i][j - 1].height;
+				if (cell[i - 1][j].height > 0)
+				{
+					xyh0 = cell[i - 1][j].height;
+					xyh1 = xyh0;
+				}
+				if (cell[i - 1][j + 1].height > 0)
+					xyh1 = cell[i - 1][j + 1].height;
+				if (cell[i][j + 1].height > 0)
+				{
+					xyh1 = cell[i][j + 1].height;
+					xyh3 = xyh1;
+				}
+				if (cell[i + 1][j + 1].height > 0)
+					xyh3 = cell[i + 1][j + 1].height;
+				if (cell[i + 1][j].height > 0)
+				{
+					xyh3 = cell[i + 1][j].height;
+					xyh2 = xyh3;
+				}
+				if (cell[i + 1][j - 1].height > 0)
+					xyh2 = cell[i + 1][j - 1].height;
+				if (cell[i][j].height > 0)
+				{
+					xyh0 = cell[i][j].height;
+					xyh1 = xyh0;
+					xyh2 = xyh0;
+					xyh3 = xyh3;
+				}
+			}
+			printf("0: %d\n 1: %d\n 2: %d\n 3: %d\n", xyh0, xyh1, xyh2, xyh3);
 			x += gap;
-			cell[i][j].x0 = x + (theight + lheight);
-			cell[i][j].y0 = y + (theight + lheight);
-			cell[i][j].x1 = (x + gap) + (theight + rheight);
-			cell[i][j].y1 = y + (theight + rheight);
-			cell[i][j].x2 = x + (bheight + lheight);
-			cell[i][j].y2 = (y + gap) + (bheight + lheight);
-			cell[i][j].x3 = x + gap + (bheight + rheight);
-			cell[i][j].y3 = (y + gap) + (bheight + rheight);
+			cell[i][j].x0 = x - xyh0 * multi;
+			cell[i][j].y0 = y - xyh0 * multi;
+			cell[i][j].x1 = (x + gap) - xyh1 * multi;
+			cell[i][j].y1 = y - xyh1 * multi;
+			cell[i][j].x2 = x - xyh2 * multi;
+			cell[i][j].y2 = (y + gap) - xyh2 * multi;
+			cell[i][j].x3 = x + gap - xyh3 * multi;
+			cell[i][j].y3 = (y + gap) - xyh3 * multi;
 			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x1, cell[i][j].y1);
 			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x2, cell[i][j].y2);
 			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i][j].x3, cell[i][j].y3);
