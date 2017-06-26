@@ -22,10 +22,10 @@
 
 int exit_func(int keycode, void *param)
 {
-	printf("%d\n", keycode);
-	if (keycode == 0)
-		free(param);
-	return (1);
+	//printf("%d\n", keycode);
+	if (keycode == 53)
+		mlx_destroy_window(param, param + 1);
+	return (0);
 }
 void	rotate(void *mlx, void *win, int x, int y, int color)
 {
@@ -70,6 +70,7 @@ int		main(int argc, char **argv)
 	int		xyh2;
 	int		xyh3;
 	int		multi;
+	void	*winmlx[2];
 
 	multi = 2;
 	height = 0;
@@ -77,6 +78,8 @@ int		main(int argc, char **argv)
 
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 1000, 1000, "42");
+	winmlx[0] = mlx;
+	winmlx[1] = win;
 	//mlx_loop(mlx);
 	x = 0;
 	y = 50;
@@ -187,8 +190,10 @@ int		main(int argc, char **argv)
 
 		}
 	}
-	if (mlx_key_hook(win, exit_func, 0) == 0)
-		return (0);
+	int (*funcpointer)(int, void*);
+	funcpointer = &exit_func;
+	int keycode = 0;
+	mlx_key_hook(win, *(funcpointer)(keycode, winmlx), 0);
 	mlx_loop(mlx);
 	return (0);
 }
