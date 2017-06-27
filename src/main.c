@@ -20,13 +20,12 @@
 #include "../libft/get_next_line.h"
 #include "fdf.h"
 
-/*int exit_func(int keycode, void *param)
+/*int exit_func(int key, void *param)
 {
-	//printf("%d\n", keycode);
-	if (keycode == 53)
-		mlx_destroy_window(param, param + 1);
-	return (0);
-	}*/
+  printf("Key in Win3 : %d\n",key);
+  return (key);
+ 
+} */
 void	rotate(void *mlx, void *win, int x, int y, int color)
 {
 	float x1 = (float)x;
@@ -68,7 +67,7 @@ int		main(int argc, char **argv)
 	int		xyh2;
 	int		xyh3;
 	int		multi;
-	char		buff[9];
+	char		buff[1];
 
 	multi = 1;
 	grid	**cell;
@@ -76,38 +75,31 @@ int		main(int argc, char **argv)
 	win = mlx_new_window(mlx, 500, 500, "42");
 	x = 0;
 	y = 50;
-	gap = 10;
-	row_count = 1;
+	gap = 25;
+	row_count = 0;
 	col_count = 0;
 	if (argc != 2)
 	{
-		write(1, "Wrong number of arguments.\n", 28);
+		write(1, "Wrong number of arguments.", 26);
 		return (0);
 	}
 	fd_2 = open(argv[1], O_RDONLY);
 	while (read(fd_2, buff, 1))
 	{
 		if (buff[0] == '\n')
-			break ;
-		col_count++;
-	}
-	row_count++;
-	while (read(fd_2, buff, 1))
-	{
-		if (buff[0] == '\n')
 			row_count++;
 	}
-		printf("### Row Count:%d\n### Col Count: %d\n", row_count, col_count);
 	fd = open(argv[1], O_RDONLY);
 	cell = (grid **)malloc(sizeof(grid *) * row_count);
-	for (int i = 0; i < col_count; i++)
-		cell[i] = (grid *)malloc(sizeof(grid) * col_count);
 	row_count = 0;
 	col_count = 0;
 	while (get_next_line(fd, &row))
 	{
-		
 		split = ft_strsplit((const char*)row, ' ');
+		col_count = 0;
+		while (split[col_count] != NULL)
+			col_count++;
+		cell[row_count] = (grid *)malloc(sizeof(grid) * (col_count + 1));
 		col_count = 0;
 		while(split[col_count] != NULL)
 		{
@@ -118,12 +110,12 @@ int		main(int argc, char **argv)
 	}
 	row_count--;
 	col_count--;
-	printf("### Row Count:%d\n### Col Count: %d\n", row_count, col_count);
-	for (int i = 0; i < row_count; i++)
+//	printf("### Row Count:%d\n### Col Count: %d\n", row_count, col_count);
+	for (int i = 0; i <= row_count; i++)
 	{
 		y += gap;
 		x = 200;
-		for (int j = 0; j < col_count; j++)
+		for (int j = 0; j <= col_count; j++)
 		{
 			xyh0 = 0;
 			xyh1 = 0;
@@ -132,42 +124,23 @@ int		main(int argc, char **argv)
 			if (j > 0 && i > 0 && j < col_count && i < row_count)
 			{
 				if (cell[i][j - 1].height > 0)
-				{
-					xyh0 = cell[i][j - 1].height;	
-					xyh2 = xyh0;
-				}
+					xyh0 = xyh2 = cell[i][j - 1].height;	
 				if (cell[i - 1][j - 1].height > 0)
 					xyh0 = cell[i - 1][j - 1].height;
 				if (cell[i - 1][j].height > 0)
-				{
-					xyh0 = cell[i - 1][j].height;
-					xyh1 = xyh0;
-				}
+					xyh0 = xyh1 = cell[i - 1][j].height;
 				if (cell[i - 1][j + 1].height > 0)
 					xyh1 = cell[i - 1][j + 1].height;
 				if (cell[i][j + 1].height > 0)
-				{
-					xyh1 = cell[i][j + 1].height;
-					xyh3 = xyh1;
-				}
+					xyh1 = xyh3 = cell[i][j + 1].height;
 				if (cell[i + 1][j + 1].height > 0)
 					xyh3 = cell[i + 1][j + 1].height;
 				if (cell[i + 1][j].height > 0)
-				{
-					xyh3 = cell[i + 1][j].height;
-					xyh2 = xyh3;
-				}
+					xyh3 = xyh2 = cell[i + 1][j].height;
 				if (cell[i + 1][j - 1].height > 0)
 					xyh2 = cell[i + 1][j - 1].height;
 				if (cell[i][j].height > 0)
-				{
-					xyh0 = cell[i][j].height;
-					xyh1 = xyh0;
-					xyh2 = xyh0;
-					xyh3 = xyh0;
-				}
-
-			
+					xyh0 = xyh1 = xyh2 = xyh3 =cell[i][j].height;
 			}
 			x += gap;
 			cell[i][j].x0 = x - xyh0 * multi;
@@ -182,29 +155,11 @@ int		main(int argc, char **argv)
 			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x2, cell[i][j].y2, xyh0 + xyh2);
 			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i][j].x3, cell[i][j].y3, xyh2 + xyh3);
 			line(mlx, win, cell[i][j].x1, cell[i][j].y1, cell[i][j].x3, cell[i][j].y3, xyh1 + xyh3);
-		/*	if (j > 0 && i > 0 && j < col_count && i < row_count)
-			{
-			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i + 1][j].x0, cell[i + 1][j].y0);
-			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j + 1].x0, cell[i][j + 1].y0);
-
-			line(mlx, win, cell[i][j].x1, cell[i][j].y1, cell[i + 1][j].x1, cell[i + 1][j].y1);
-			line(mlx, win, cell[i][j].x1, cell[i][j].y1, cell[i][j + 1].x1, cell[i][j + 1].y1);
-
-			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i + 1][j].x2, cell[i + 1][j].y2);
-			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i][j + 1].x2, cell[i][j + 1].y2);
-
-			line(mlx, win, cell[i][j].x3, cell[i][j].y3, cell[i + 1][j].x3, cell[i + 1][j].y3);
-			line(mlx, win, cell[i][j].x3, cell[i][j].y3, cell[i][j + 1].x3, cell[i][j + 1].y3);
-
-
-			} */
 
 		}
 	}
-	//int (*funcpointer)(int, void*);
-	//funcpointer = &exit_func;
-	//int keycode = 0;
-	//mlx_key_hook(win, *(funcpointer)(keycode, winmlx), 0);
+	//mlx_key_hook(win, exit_func, 0);
+	//mlx_hook(win, MotionNotify, PointerMotionMask, exit_func, 0);
 	mlx_loop(mlx);
 	return (0);
 }
