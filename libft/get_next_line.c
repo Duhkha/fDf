@@ -16,7 +16,7 @@
 
 static void		ft_remalloc(char *s, int size)
 {
-	char	*temp;
+	char	*temp = NULL;
 	int		i;
 
 	temp = s;
@@ -85,7 +85,7 @@ static int		ft_put_line(int i, int ttlbytes, char **line, char *buff2)
 	int j;
 
 	j = 0;
-	*line = (char *)malloc((line_len((&buff2[i] + 1), ttlbytes)));
+	line[0] = (char *)malloc((line_len((&buff2[i]), ttlbytes)) + 1);
 	while (i < ttlbytes)
 	{
 		if (buff2[i] == '\n')

@@ -22,7 +22,7 @@ SRC = ft_strlen.c ft_strdup.c ft_strcat.c ft_strstr.c ft_strlcat.c ft_strnstr.c 
 	ft_strmapi.c ft_strequ.c ft_strnequ.c ft_strsub.c ft_strjoin.c libft.h \
 	ft_strtrim.c ft_strsplit.c ft_itoa.c ft_putchar.c ft_putstr.c ft_putendl.c \
 	ft_putnbr.c	ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
-	get_next_line.c ft_strsplit_2.c
+	get_next_line.c
 
 COMPILED_FT = ft_strlen.o ft_strdup.o ft_strcat.o ft_strstr.o ft_strlcat.o ft_strnstr.o \
 	ft_strrchr.o ft_strchr.o ft_tolower.o ft_toupper.o ft_isalpha.o ft_isdigit.o \
@@ -33,7 +33,7 @@ COMPILED_FT = ft_strlen.o ft_strdup.o ft_strcat.o ft_strstr.o ft_strlcat.o ft_st
 	ft_strmapi.o ft_strequ.o ft_strnequ.o ft_strsub.o ft_strjoin.o libft.h.gch \
 	ft_strtrim.o ft_strsplit.o ft_itoa.o ft_putchar.o ft_putstr.o ft_putendl.o \
 	ft_putnbr.o ft_putchar_fd.o ft_putstr_fd.o ft_putendl_fd.o ft_putnbr_fd.o \
-	get_next_line.o ft_strsplit_2.o
+	get_next_line.o
 
 FLAGS = -Werror -Wall -Wextra
 
