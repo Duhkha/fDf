@@ -1,5 +1,15 @@
 #ifndef FDF_H
 # define FDF_H
+# define MULTIPLIER 5
+# include "../minilibx_macos/mlx.h"
+# include <unistd.h>
+# include <math.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include "../libft/libft.h"
+# include "../libft/get_next_line.h"
+
 typedef struct {
 
 	int		x0;
@@ -13,5 +23,12 @@ typedef struct {
 	int		height;
 
 } grid;
+typedef struct param
+{
+	void	*mlx;
+	void	*win;
+}				p;
+grid		**ft_read(char *file, int *row_countp, int *col_countp);
+void		ft_draw(int col_count, int row_count, grid **cell, int gap, void *mlx, void *win);
 
 #endif
