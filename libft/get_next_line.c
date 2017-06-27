@@ -14,21 +14,16 @@
 #include "libft.h"
 #include <unistd.h>
 
-static void		ft_remalloc(char *s, int size)
+static char		*ft_remalloc(char *s1, int size)
 {
-	char	*temp = NULL;
-	int		i;
+	char *s2;
 
-	temp = s;
-	i = 0;
-	s = (char *)malloc(sizeof(char *) * size);
-	if (s == NULL)
-		temp = NULL;
-	while (temp[i])
-	{
-		s[i] = temp[i];
-		i++;
-	}
+	s2 = (char *)malloc(sizeof(char *) * (size + 1));
+	if (s2 == NULL)
+		s2 = NULL;
+	s2 = ft_memcpy(s2, s1, ft_strlen(s1));
+	//free(s1);
+	return (s2);
 }
 
 /*
@@ -57,6 +52,7 @@ static int		ft_read(char *buff, char *buff2, int fd)
 			j++;
 			i++;
 		}
+		buff2[i] = '\0';
 	}
 	free(buff);
 	return (ttlbytes);
@@ -85,7 +81,7 @@ static int		ft_put_line(int i, int ttlbytes, char **line, char *buff2)
 	int j;
 
 	j = 0;
-	line[0] = (char *)malloc((line_len((&buff2[i]), ttlbytes)) + 1);
+	line[0] = (char *)malloc(sizeof(char)*(line_len((&buff2[i]), ttlbytes) + 1));
 	while (i < ttlbytes)
 	{
 		if (buff2[i] == '\n')

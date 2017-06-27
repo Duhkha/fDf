@@ -92,10 +92,7 @@ int		main(int argc, char **argv)
 	row_count = 1;
 	col_count = 0;
 	if (argc != 2)
-	{
-		write(1, "Wrong number of arguments.", 26);
 		return (0);
-	}
 	fd_2 = open(argv[1], O_RDONLY);
 	while (read(fd_2, buff, 1))
 	{
@@ -188,8 +185,8 @@ int		main(int argc, char **argv)
 	}
 	row_count++;
 	//col_count++;
-	for (int i = 0; i <= row_count; i++)
-		free(cell[i]);
+//	for (int i = 0; i <= row_count; i++)
+	//	free(cell[i]);
 	free(cell);
 	for (int i = 0; split[i] != NULL; i++)
 		free(split[i]);
