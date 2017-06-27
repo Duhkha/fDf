@@ -36,5 +36,5 @@ typedef struct {
 } heightmap;
 grid		**ft_read(char *file, int *row_countp, int *col_countp);
 void		ft_draw(int col_count, int row_count, grid **cell, int gap, void *mlx, void *win);
-
+//heightmap	ft_fillxyh(int i, grid **cell, int row_count, int col_count);
 #endif

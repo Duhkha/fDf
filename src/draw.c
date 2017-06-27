@@ -11,23 +11,26 @@ void	rotate(void *mlx, void *win, int x, int y, int color)
 }
 void	line(void *mlx, void *win, int x0, int y0, int x1, int y1, int color) {
 
-	int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
-	int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1; 
+	int dx = fabs(x1-x0), sx = x0<x1 ? 1 : -1;
+	int dy = fabs(y1-y0), sy = y0<y1 ? 1 : -1; 
 	int err = (dx>dy ? dx : -dy)/2, e2;
 	color = 0x00FFFFFF - (color * 2000000);
 	for(;;){
-		rotate(mlx, win, x0,y0, color);
+		
 		if (x0==x1 && y0==y1) break;
 		e2 = err;
 		if (e2 >-dx) { err -= dy; x0 += sx; }
 		if (e2 < dy) { err += dx; y0 += sy; }
+		rotate(mlx, win, x0,y0, color);
 	}
 }
+
 void		ft_draw(int col_count, int row_count, grid **cell, int gap, void *mlx, void *win)
 {
 	int			x;
 	int			y;
 	int			multi;
+
 	heightmap	xyh;
 	multi = MULTIPLIER;
 	y = 50;
@@ -38,27 +41,15 @@ void		ft_draw(int col_count, int row_count, grid **cell, int gap, void *mlx, voi
 		x = 400;
 		for (int j = 0; j <= col_count; j++)
 		{
-			xyh.xyh0 = xyh.xyh1 = xyh.xyh2 = xyh.xyh3 = 0;
-			if (cell[i][j].height != 0)
-				xyh.xyh3 = xyh.xyh2 = xyh.xyh1 = xyh.xyh0 = cell[i][j].height;
-				if (j < col_count && i < row_count)
-					if (cell[i + 1][j + 1].height != 0)
-						xyh.xyh3 = cell[i + 1][j + 1].height;
-				if (j < col_count)
-					if (cell[i][j + 1].height != 0)
-					xyh.xyh3 = xyh.xyh1 = cell[i][j + 1].height;
-				if (i < row_count)
-					if (cell[i + 1][j].height != 0)
-						xyh.xyh2 = xyh.xyh3 = cell[i + 1][j].height;
-				if (j > 0 && i > 0)
-					if (cell[i - 1][j - 1].height != 0)
-						xyh.xyh0 = cell[i - 1][j - 1].height;
-				if (j > 0)
-					if (cell[i][j - 1].height != 0)
-						xyh.xyh2 = xyh.xyh0 = cell[i][j - 1].height;
-				if (i > 0)
-					if (cell[i - 1][j].height != 0)
-						xyh.xyh1 = xyh.xyh0 = cell[i - 1][j].height;
+			xyh.xyh3 = xyh.xyh2 = xyh.xyh1 = xyh.xyh0 = cell[i][j].height;
+			if (cell[i][j + 1].height != 0 && j < col_count)
+				xyh.xyh3 = xyh.xyh1 = cell[i][j + 1].height;
+				if (i > 0 && cell[i - 1][j].height != 0)
+					xyh.xyh1 = xyh.xyh0 = cell[i - 1][j].height;
+				if (i < row_count && cell[i + 1][j].height != 0)
+					xyh.xyh2 = xyh.xyh3 = cell[i + 1][j].height;
+				if (j > 0 && cell[i][j - 1].height != 0)
+					xyh.xyh2 = xyh.xyh0 = cell[i][j - 1].height;
 			x += gap;
 			cell[i][j].x0 = x - xyh.xyh0 * multi;
 			cell[i][j].y0 = y - xyh.xyh0 * multi;
