@@ -1,6 +1,6 @@
 #ifndef FDF_H
 # define FDF_H
-# define MULTIPLIER 5
+# define MULTIPLIER 3
 # include "../minilibx_macos/mlx.h"
 # include <unistd.h>
 # include <math.h>
@@ -28,6 +28,12 @@ typedef struct param
 	void	*mlx;
 	void	*win;
 }				p;
+typedef struct {
+	int	xyh0;
+	int	xyh1;
+	int	xyh2;
+	int	xyh3;
+} heightmap;
 grid		**ft_read(char *file, int *row_countp, int *col_countp);
 void		ft_draw(int col_count, int row_count, grid **cell, int gap, void *mlx, void *win);
 

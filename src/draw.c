@@ -25,14 +25,10 @@ void	line(void *mlx, void *win, int x0, int y0, int x1, int y1, int color) {
 }
 void		ft_draw(int col_count, int row_count, grid **cell, int gap, void *mlx, void *win)
 {
-	int		xyh0;
-	int		xyh1;
-	int		xyh2;
-	int		xyh3;
-	int		x;
-	int		y;
-	int		multi;
-
+	int			x;
+	int			y;
+	int			multi;
+	heightmap	xyh;
 	multi = MULTIPLIER;
 	y = 50;
 	x = 0;
@@ -42,57 +38,40 @@ void		ft_draw(int col_count, int row_count, grid **cell, int gap, void *mlx, voi
 		x = 400;
 		for (int j = 0; j <= col_count; j++)
 		{
-			xyh0 = 0;
-			xyh1 = 0;
-			xyh2 = 0;
-			xyh3 = 0;
-
+			xyh.xyh0 = xyh.xyh1 = xyh.xyh2 = xyh.xyh3 = 0;
 			if (cell[i][j].height != 0)
-				xyh3 = xyh2 = xyh1 = xyh0 = cell[i][j].height;
-
-				if ((j > 0 && i > 0) && (j < col_count && i < row_count))
-				{
-					if (cell[i + 1][j - 1].height != 0)
-						xyh2 = cell[i + 1][j - 1].height;
-					if (cell[i - 1][j + 1].height != 0)
-							xyh1 = cell[i - 1][j + 1].height;
-				}
-			if (i < row_count && j < col_count)
-			{
-				if (cell[i + 1][j].height != 0)
-					xyh2 = xyh3 = cell[i + 1][j].height;
+				xyh.xyh3 = xyh.xyh2 = xyh.xyh1 = xyh.xyh0 = cell[i][j].height;
 				if (j < col_count && i < row_count)
 					if (cell[i + 1][j + 1].height != 0)
-						xyh3 = cell[i + 1][j + 1].height;
+						xyh.xyh3 = cell[i + 1][j + 1].height;
 				if (j < col_count)
 					if (cell[i][j + 1].height != 0)
-					xyh3 = xyh1 = cell[i][j + 1].height;
+					xyh.xyh3 = xyh.xyh1 = cell[i][j + 1].height;
 				if (i < row_count)
 					if (cell[i + 1][j].height != 0)
-						xyh2 = xyh3 = cell[i + 1][j].height;
+						xyh.xyh2 = xyh.xyh3 = cell[i + 1][j].height;
 				if (j > 0 && i > 0)
 					if (cell[i - 1][j - 1].height != 0)
-						xyh0 = cell[i - 1][j - 1].height;
+						xyh.xyh0 = cell[i - 1][j - 1].height;
 				if (j > 0)
 					if (cell[i][j - 1].height != 0)
-						xyh2 = xyh0 = cell[i][j - 1].height;
+						xyh.xyh2 = xyh.xyh0 = cell[i][j - 1].height;
 				if (i > 0)
 					if (cell[i - 1][j].height != 0)
-						xyh1 = xyh0 = cell[i - 1][j].height;
-			}
+						xyh.xyh1 = xyh.xyh0 = cell[i - 1][j].height;
 			x += gap;
-			cell[i][j].x0 = x - xyh0 * multi;
-			cell[i][j].y0 = y - xyh0 * multi;
-			cell[i][j].x1 = (x + gap) - xyh1 * multi;
-			cell[i][j].y1 = y - xyh1 * multi;
-			cell[i][j].x2 = x - xyh2 * multi;
-			cell[i][j].y2 = (y + gap) - xyh2 * multi;
-			cell[i][j].x3 = x + gap - xyh3 * multi;
-			cell[i][j].y3 = (y + gap) - xyh3 * multi;
-			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x1, cell[i][j].y1, xyh0 + xyh1);
-			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x2, cell[i][j].y2, xyh0 + xyh2);
-			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i][j].x3, cell[i][j].y3, xyh2 + xyh3);
-			line(mlx, win, cell[i][j].x1, cell[i][j].y1, cell[i][j].x3, cell[i][j].y3, xyh1 + xyh3);
+			cell[i][j].x0 = x - xyh.xyh0 * multi;
+			cell[i][j].y0 = y - xyh.xyh0 * multi;
+			cell[i][j].x1 = (x + gap) - xyh.xyh1 * multi;
+			cell[i][j].y1 = y - xyh.xyh1 * multi;
+			cell[i][j].x2 = x - xyh.xyh2 * multi;
+			cell[i][j].y2 = (y + gap) - xyh.xyh2 * multi;
+			cell[i][j].x3 = x + gap - xyh.xyh3 * multi;
+			cell[i][j].y3 = (y + gap) - xyh.xyh3 * multi;
+			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x1, cell[i][j].y1, xyh.xyh0 + xyh.xyh1);
+			line(mlx, win, cell[i][j].x0, cell[i][j].y0, cell[i][j].x2, cell[i][j].y2, xyh.xyh0 + xyh.xyh2);
+			line(mlx, win, cell[i][j].x2, cell[i][j].y2, cell[i][j].x3, cell[i][j].y3, xyh.xyh2 + xyh.xyh3);
+			line(mlx, win, cell[i][j].x1, cell[i][j].y1, cell[i][j].x3, cell[i][j].y3, xyh.xyh1 + xyh.xyh3);
 		}
 	}
 }

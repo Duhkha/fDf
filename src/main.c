@@ -47,8 +47,6 @@ int		main(int argc, char **argv)
 	col_count--;
 	ft_draw(col_count, row_count, cell, gap, m.mlx, m.win);
 	row_count++;
-
-	free(cell);
 	mlx_key_hook(m.win, ext, (void *)&m);
 	mlx_loop(m.mlx);
 	return (0);
