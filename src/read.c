@@ -14,14 +14,10 @@ grid		**ft_read(char *file, int *row_countp, int *col_countp)
 	col_count = 0;
 	fd = open(file, O_RDONLY);
 	while (read(fd, buff, 1))
-	{
 		if (buff[0] == '\n')
 			row_count++;
-	}
-	//write(1, "f", 1);
 	fd = open(file, O_RDONLY);
 	cell = (grid **)malloc(sizeof(grid *) * (row_count + 1));
-
 	row_count = 0;
 	col_count = 0;
 	while (get_next_line(fd, &row))
@@ -41,7 +37,7 @@ grid		**ft_read(char *file, int *row_countp, int *col_countp)
 	}
 	*row_countp = row_count;
 	*col_countp = col_count;
-		for (int i = 0; split[i] != NULL; i++)
+	for (int i = 0; split[i] != NULL; i++)
 		free(split[i]);
 	free (split);
 	return (cell);
