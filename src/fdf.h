@@ -20,10 +20,6 @@ typedef struct
 	int		x3;
 	int		y3;
 	int		height;
-	int	xyh0;
-	int	xyh1;
-	int	xyh2;
-	int	xyh3;
 } grid;
 
 typedef struct param
