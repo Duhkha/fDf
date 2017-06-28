@@ -9,6 +9,7 @@ OBJ = ${SRC:c=o}
 LIBFT = ../libft/libft.a
 
 MINILIBX_LINUX = ../minilibx/libmlx.a
+
 FLAGS = -framework Opengl -framework Appkit -Werror -Wextra -Wall
 
 FLAGSLINUX = -L/usr/X11/lib -lmlx -lXext -lX11 -Werror -Wextra -Wall
@@ -24,10 +25,10 @@ linux:
 	gcc -o $(NAME) $(OBJ) $(LIBFT) $(FLAGSLINUX)
 
 clean:
-	/bim/rm -f $(OBJ)
+	/bin/rm -f $(OBJ)
 
 fclean: clean
-	/bim/rm -f $(NAME)
+	/bin/rm -f $(NAME)
 
 re: fclean all
 ##mac:
