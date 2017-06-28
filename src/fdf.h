@@ -6,7 +6,6 @@
 # include <math.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include "../libft/libft.h"
 # include "../libft/get_next_line.h"
 
@@ -21,6 +20,10 @@ typedef struct {
 	int		x3;
 	int		y3;
 	int		height;
+	int	xyh0;
+	int	xyh1;
+	int	xyh2;
+	int	xyh3;
 
 } grid;
 typedef struct param
@@ -37,4 +40,5 @@ typedef struct {
 grid		**ft_read(char *file, int *row_countp, int *col_countp);
 void		ft_draw(int col_count, int row_count, grid **cell, int gap, void *mlx, void *win);
 //heightmap	ft_fillxyh(int i, grid **cell, int row_count, int col_count);
+//void	ft_add_height(int x, int y, int i, int j, int row_count, int col_count, grid **cell, heightmap xyh, int multi, int gap, void *mlx, void *win);
 #endif

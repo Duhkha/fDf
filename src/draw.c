@@ -24,7 +24,6 @@ void	line(void *mlx, void *win, int x0, int y0, int x1, int y1, int color) {
 		rotate(mlx, win, x0,y0, color);
 	}
 }
-
 void		ft_draw(int col_count, int row_count, grid **cell, int gap, void *mlx, void *win)
 {
 	int			x;
@@ -41,15 +40,23 @@ void		ft_draw(int col_count, int row_count, grid **cell, int gap, void *mlx, voi
 		x = 400;
 		for (int j = 0; j <= col_count; j++)
 		{
-			xyh.xyh3 = xyh.xyh2 = xyh.xyh1 = xyh.xyh0 = cell[i][j].height;
+				xyh.xyh3 = xyh.xyh2 = xyh.xyh1 = xyh.xyh0 = cell[i][j].height;
 			if (cell[i][j + 1].height != 0 && j < col_count)
 				xyh.xyh3 = xyh.xyh1 = cell[i][j + 1].height;
-				if (i > 0 && cell[i - 1][j].height != 0)
-					xyh.xyh1 = xyh.xyh0 = cell[i - 1][j].height;
-				if (i < row_count && cell[i + 1][j].height != 0)
-					xyh.xyh2 = xyh.xyh3 = cell[i + 1][j].height;
-				if (j > 0 && cell[i][j - 1].height != 0)
-					xyh.xyh2 = xyh.xyh0 = cell[i][j - 1].height;
+			if (i > 0 && cell[i - 1][j].height != 0)
+				xyh.xyh1 = xyh.xyh0 = cell[i - 1][j].height;
+			if (i < row_count && cell[i + 1][j].height != 0)
+				xyh.xyh2 = xyh.xyh3 = cell[i + 1][j].height;
+			if (j > 0 && cell[i][j - 1].height != 0)
+				xyh.xyh2 = xyh.xyh0 = cell[i][j - 1].height;
+			if (j < col_count && i < row_count && cell[i + 1][j + 1].height != 0)
+				xyh.xyh3 = cell[i + 1][j + 1].height;
+			if (i > 0 && j > 0 && cell[i - 1][j - 1].height != 0)
+				xyh.xyh0 = cell[i - 1][j - 1].height;
+			if (j < col_count && i > 0 && cell[i - 1][j + 1].height != 0)
+				xyh.xyh1 = cell[i - 1][j + 1].height;
+			if (i < row_count && j > 0 && cell[i + 1][j - 1].height != 0)
+				xyh.xyh2 = cell[i + 1][j - 1].height;
 			x += gap;
 			cell[i][j].x0 = x - xyh.xyh0 * multi;
 			cell[i][j].y0 = y - xyh.xyh0 * multi;
