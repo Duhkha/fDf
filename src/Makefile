@@ -10,7 +10,7 @@ LIBFT = ../libft/libft.a
 
 MINILIBX_LINUX = ../minilibx/libmlx.a
 
-FLAGS = -framework Opengl -framework Appkit -Werror -Wextra -Wall
+FLAGS = -lmx -framework Opengl -framework Appkit -Werror -Wextra -Wall
 
 FLAGSLINUX = -L/usr/X11/lib -lmlx -lXext -lX11 -Werror -Wextra -Wall
 
@@ -18,7 +18,7 @@ all: $(NAME)
 
 $(NAME):
 	gcc -c $(SRC)
-	gcc -o $(NAME) $(OBJ) $(LIBFT) $(MINILIBX) $(FLAGS)
+	gcc -o $(NAME) $(OBJ) $(LIBFT) $(FLAGS)
 
 linux: 
 	gcc -c $(SRC)
