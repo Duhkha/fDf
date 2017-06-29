@@ -27,26 +27,24 @@ int		ext(int keycode, void *m)
 
 int		main(int argc, char **argv)
 {
-	int		gap;
-	int		row_count;
-	int		col_count;
+	t_draw	d;
 	t_grid	**cell;
 	t_mlx	m;
 
 	m.mlx = mlx_init();
 	m.win = mlx_new_window(m.mlx, 1000, 1000, "42");
-	gap = 1;
-	row_count = 1;
-	col_count = 0;
+	d.gap = 1;
+	d.row_count = 1;
+	d.col_count = 0;
 	if (argc != 2)
 		return (0);
-	cell = ft_read(argv[1], &row_count, &col_count);
-	while (gap * col_count < 600 && gap * row_count < 600)
-		gap++;
-	row_count--;
-	col_count--;
-	ft_draw(col_count, row_count, cell, gap, m);
-	row_count++;
+	cell = ft_read(argv[1], &d.row_count, &d.col_count);
+	while (d.gap * d.col_count < 600 && d.gap * d.row_count < 600)
+		d.gap++;
+	d.row_count--;
+	d.col_count--;
+	ft_draw(d, cell, m);
+	d.row_count++;
 	mlx_key_hook(m.win, ext, &m);
 	mlx_loop(m.mlx);
 	return (0);

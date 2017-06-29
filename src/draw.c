@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-void			rotate(t_mlx m, int x, int y, int color)
+void		rotate(t_mlx m, int x, int y, int color)
 {
 	float x1;
 	float y1;
@@ -24,7 +24,7 @@ void			rotate(t_mlx m, int x, int y, int color)
 	mlx_pixel_put(m.mlx, m.win, x1, y1, color);
 }
 
-void			line(t_mlx m, int x0, int y0, int x1, int y1, int color)
+void		line(t_mlx m, int x0, int y0, int x1, int y1, int color)
 {
 	t_line	n;
 
@@ -53,7 +53,7 @@ void			line(t_mlx m, int x0, int y0, int x1, int y1, int color)
 	}
 }
 
-static void		ft_cell_draw(t_grid cell, t_hm xyh, t_mlx m)
+static void	ft_cell_draw(t_grid cell, t_hm xyh, t_mlx m)
 {
 	int multi;
 
@@ -71,46 +71,53 @@ static void		ft_cell_draw(t_grid cell, t_hm xyh, t_mlx m)
 	line(m, cell.x2, cell.y2, cell.x3, cell.y3, xyh.xyh2 + xyh.xyh3);
 	line(m, cell.x1, cell.y1, cell.x3, cell.y3, xyh.xyh1 + xyh.xyh3);
 }
-
-void			ft_draw(int col_count, int row_count, t_grid **cell, int gap, t_mlx m)
+static t_hm	ft_draw_helper(t_draw d, t_grid **cell, t_hm xyh)
 {
-	int			x;
-	int			y;
-	int			i;
-	int			j;
+	xyh.xyh3 = cell[xyh.i][xyh.j].height;
+	xyh.xyh2 = xyh.xyh3;
+	xyh.xyh1 = xyh.xyh3;
+	xyh.xyh0 = xyh.xyh3;
+	if (cell[xyh.i][xyh.j + 1].height != 0 && xyh.j < d.col_count)
+	{
+		xyh.xyh3 = cell[xyh.i][xyh.j + 1].height;
+		xyh.xyh1 = xyh.xyh3;
+	}
+	if (xyh.i > 0 && cell[xyh.i - 1][xyh.j].height != 0)
+	{
+		xyh.xyh1 = cell[xyh.i - 1][xyh.j].height;
+		xyh.xyh0 = xyh.xyh1;
+	}
+	if (xyh.i < d.row_count && cell[xyh.i + 1][xyh.j].height != 0)
+	{
+		xyh.xyh2 = cell[xyh.i + 1][xyh.j].height;
+		xyh.xyh3 = xyh.xyh2;
+	}
+	if (xyh.j > 0 && cell[xyh.i][xyh.j - 1].height != 0)
+	{
+		xyh.xyh2 = cell[xyh.i][xyh.j - 1].height;
+		xyh.xyh0 = xyh.xyh2;
+	}
+	return (xyh);
+}
+void		ft_draw(t_draw d, t_grid **cell, t_mlx m)
+{
 	t_hm		xyh;
 
-	i = 0;
+	xyh.i = 0;
 	xyh.y = 50;
-	xyh.gap = gap;
-	while (i <= row_count)
+	xyh.gap = d.gap;
+	while (xyh.i <= d.row_count)
 	{
-		xyh.y += gap;
+		xyh.y += xyh.gap;
 		xyh.x = 400;
-		j = 0;
-		while (j <= col_count)
+		xyh.j = 0;
+		while (xyh.j <= d.col_count)
 		{
-			xyh.xyh3 = xyh.xyh2 = xyh.xyh1 = xyh.xyh0 = cell[i][j].height;
-			if (cell[i][j + 1].height != 0 && j < col_count)
-				xyh.xyh3 = xyh.xyh1 = cell[i][j + 1].height;
-			if (i > 0 && cell[i - 1][j].height != 0)
-				xyh.xyh1 = xyh.xyh0 = cell[i - 1][j].height;
-			if (i < row_count && cell[i + 1][j].height != 0)
-				xyh.xyh2 = xyh.xyh3 = cell[i + 1][j].height;
-			if (j > 0 && cell[i][j - 1].height != 0)
-				xyh.xyh2 = xyh.xyh0 = cell[i][j - 1].height;
-			if (j < col_count && i < row_count && cell[i + 1][j + 1].height != 0)
-				xyh.xyh3 = cell[i + 1][j + 1].height;
-			if (i > 0 && j > 0 && cell[i - 1][j - 1].height != 0)
-				xyh.xyh0 = cell[i - 1][j - 1].height;
-			if (j < col_count && i > 0 && cell[i - 1][j + 1].height != 0)
-				xyh.xyh1 = cell[i - 1][j + 1].height;
-			if (i < row_count && j > 0 && cell[i + 1][j - 1].height != 0)
-				xyh.xyh2 = cell[i + 1][j - 1].height;
-			xyh.x += gap;
-			ft_cell_draw(cell[i][j], xyh, m);
-			j++;
+			xyh = ft_draw_helper(d, cell, xyh);
+			xyh.x += xyh.gap;
+			ft_cell_draw(cell[xyh.i][xyh.j], xyh, m);
+			xyh.j++;
 		}
-		i++;
+		xyh.i++;
 	}
 }

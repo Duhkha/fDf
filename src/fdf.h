@@ -51,6 +51,8 @@ typedef struct	s_hm
 	int			x;
 	int			y;
 	int			gap;
+	int			i;
+	int			j;
 }				t_hm;
 typedef struct	s_line
 {
@@ -69,12 +71,18 @@ typedef	struct	s_read
 	char		*row;
 	char		**split;
 	int			fd;
+	int			i;
+	int			j;
 }				t_read;
+typedef struct  s_draw
+{
+	int			col_count;
+	int			row_count;
+	int			gap;
+}				t_draw;
 t_grid			**ft_read(char *file, int *row_countp, int *col_countp);
-void			ft_draw(int col_count, int row_count,
-	t_grid **cell, int gap, t_mlx m);
+void			ft_draw(t_draw d, t_grid **cell, t_mlx m);
 void			line(t_mlx m, int x0, int y0, int x1, int y1, int color);
 void			rotate(t_mlx m, int x, int y, int color);
 int				ext(int keycode, void *m);
-
 #endif
