@@ -33,7 +33,7 @@ void		line(t_mlx m, int x0, int y0, int x1, int y1, int color)
 	n.dy = abs(y1 - y0);
 	n.sy = y0 < y1 ? 1 : -1;
 	n.err = (n.dx > n.dy ? n.dx : -n.dy) / 2;
-	color = 0x00FFFFFF - (color * 50000);
+	color = 0x00FFFFFF - (color * 500000);
 	while (1)
 	{
 		if (x0 == x1 && y0 == y1)
