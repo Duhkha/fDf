@@ -10,7 +10,9 @@ LIBFT = ../libft/libft.a
 
 MINILIBX_LINUX = ../minilibx/libmlx.a
 
-FLAGS = -lmx -framework Opengl -framework Appkit -Werror -Wextra -Wall
+MINILIBX_MACOS = ../minilibx_macos/libmlx.a
+
+FLAGS = $(MINILIBX_MACOS) -framework Opengl -framework Appkit -Werror -Wextra -Wall
 
 FLAGSLINUX = -L/usr/X11/lib -lmlx -lXext -lX11 -Werror -Wextra -Wall
 
@@ -28,7 +30,7 @@ clean:
 	/bin/rm -f $(OBJ)
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 ##mac:

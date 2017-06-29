@@ -1,44 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: syoung <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/06/29 06:45:36 by syoung            #+#    #+#             */
+/*   Updated: 2017/06/29 06:45:38 by syoung           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-grid		**ft_read(char *file, int *row_countp, int *col_countp)
-{	
-	int		fd;
-	char	buff[1];
-	char	*row;
-	char	**split;
-	int		row_count;
-	int		col_count;
-	grid	**cell;
+t_grid		**ft_read(char *file, int *row_countp, int *col_countp)
+{
+	t_read	r;
+	t_grid	**cell;
+	int		i;
 
-	row_count = 0;
-	col_count = 0;
-	fd = open(file, O_RDONLY);
-	while (read(fd, buff, 1))
-		if (buff[0] == '\n')
-			row_count++;
-	fd = open(file, O_RDONLY);
-	cell = (grid **)malloc(sizeof(grid *) * (row_count + 1));
-	row_count = 0;
-	col_count = 0;
-	while (get_next_line(fd, &row))
+	r.row_count = 0;
+	r.col_count = 0;
+	r.fd = open(file, O_RDONLY);
+	while (read(r.fd, r.buff, 1))
+		if (r.buff[0] == '\n')
+			r.row_count++;
+	r.fd = open(file, O_RDONLY);
+	cell = (t_grid **)malloc(sizeof(t_grid *) * (r.row_count + 1));
+	r.row_count = 0;
+	r.col_count = 0;
+	while (get_next_line(r.fd, &r.row))
 	{
-		split = ft_strsplit((const char*)row, ' ');
-		col_count = 0;
-		while (split[col_count] != NULL)
-			col_count++;
-		cell[row_count] = (grid *)malloc(sizeof(grid) * (col_count + 1));
-		col_count = 0;
-		while(split[col_count] != NULL)
+		r.split = ft_strsplit((const char*)r.row, ' ');
+		free(r.row);
+		r.col_count = 0;
+		while (r.split[r.col_count] != NULL)
+			r.col_count++;
+		cell[r.row_count] = (t_grid *)malloc(sizeof(t_grid) * (r.col_count + 1));
+		r.col_count = 0;
+		while (r.split[r.col_count] != NULL)
 		{
-			cell[row_count][col_count].height = ft_atoi((const char*)split[col_count]);
-			col_count++;
+			cell[r.row_count][r.col_count].height = ft_atoi((const char*)r.split[r.col_count]);
+			r.col_count++;
 		}
-		row_count++;
+		r.row_count++;
 	}
-	*row_countp = row_count;
-	*col_countp = col_count;
-	for (int i = 0; split[i] != NULL; i++)
-		free(split[i]);
-	free (split);
+	*row_countp = r.row_count;
+	*col_countp = r.col_count;
+	i = 0;
+	while (r.split[i] != NULL)
+	{
+		free(r.split[i]);
+		i++;
+	}
+	free(r.split);
 	return (cell);
 }
