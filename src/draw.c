@@ -28,9 +28,9 @@ void		line(t_mlx m, int x0, int y0, int x1, int y1, int color)
 {
 	t_line	n;
 
-	n.dx = abs(x1 - x0);
+	n.dx = ft_abs(x1 - x0);
 	n.sx = x0 < x1 ? 1 : -1;
-	n.dy = abs(y1 - y0);
+	n.dy = ft_abs(y1 - y0);
 	n.sy = y0 < y1 ? 1 : -1;
 	n.err = (n.dx > n.dy ? n.dx : -n.dy) / 2;
 	color = 0x00FFFFFF - (color * 500000);
