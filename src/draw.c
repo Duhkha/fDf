@@ -6,13 +6,13 @@
 /*   By: syoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 06:45:12 by syoung            #+#    #+#             */
-/*   Updated: 2017/06/29 06:45:15 by syoung           ###   ########.fr       */
+/*   Updated: 2017/06/30 07:27:19 by syoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void		rotate(t_mlx m, int x, int y, int color)
+void			rotate(t_mlx m, int x, int y, int color)
 {
 	float x1;
 	float y1;
@@ -24,54 +24,62 @@ void		rotate(t_mlx m, int x, int y, int color)
 	mlx_pixel_put(m.mlx, m.win, x1, y1, color);
 }
 
-void		line(t_mlx m, int x0, int y0, int x1, int y1, int color)
+void			line(t_mlx m, t_line n, int color)
 {
-	t_line	n;
-
-	n.dx = ft_abs(x1 - x0);
-	n.sx = x0 < x1 ? 1 : -1;
-	n.dy = ft_abs(y1 - y0);
-	n.sy = y0 < y1 ? 1 : -1;
+	n.dx = ft_abs(n.x1 - n.x0);
+	n.sx = n.x0 < n.x1 ? 1 : -1;
+	n.dy = ft_abs(n.y1 - n.y0);
+	n.sy = n.y0 < n.y1 ? 1 : -1;
 	n.err = (n.dx > n.dy ? n.dx : -n.dy) / 2;
-	color = 0x00FFFFFF - (color * 500000);
+	color = 0x00FFFFFF - (color * 50000);
 	while (1)
 	{
-		if (x0 == x1 && y0 == y1)
+		if (n.x0 == n.x1 && n.y0 == n.y1)
 			break ;
 		n.e2 = n.err;
 		if (n.e2 > -n.dx)
 		{
 			n.err -= n.dy;
-			x0 += n.sx;
+			n.x0 += n.sx;
 		}
 		if (n.e2 < n.dy)
 		{
 			n.err += n.dx;
-			y0 += n.sy;
+			n.y0 += n.sy;
 		}
-		rotate(m, x0, y0, color);
+		rotate(m, n.x0, n.y0, color);
 	}
 }
 
-static void	ft_cell_draw(t_grid cell, t_hm xyh, t_mlx m)
+static void		ft_cell_draw(t_grid cell, t_hm xyh, t_mlx m)
 {
-	int multi;
+	int		multi;
+	t_line	l[4];
 
 	multi = MULTIPLIER;
-	cell.x0 = xyh.x - xyh.xyh0 * multi;
-	cell.y0 = xyh.y - xyh.xyh0 * multi;
-	cell.x1 = (xyh.x + xyh.gap) - xyh.xyh1 * multi;
-	cell.y1 = xyh.y - xyh.xyh1 * multi;
-	cell.x2 = xyh.x - xyh.xyh2 * multi;
-	cell.y2 = (xyh.y + xyh.gap) - xyh.xyh2 * multi;
-	cell.x3 = xyh.x + xyh.gap - xyh.xyh3 * multi;
-	cell.y3 = (xyh.y + xyh.gap) - xyh.xyh3 * multi;
-	line(m, cell.x0, cell.y0, cell.x1, cell.y1, xyh.xyh0 + xyh.xyh1);
-	line(m, cell.x0, cell.y0, cell.x2, cell.y2, xyh.xyh0 + xyh.xyh2);
-	line(m, cell.x2, cell.y2, cell.x3, cell.y3, xyh.xyh2 + xyh.xyh3);
-	line(m, cell.x1, cell.y1, cell.x3, cell.y3, xyh.xyh1 + xyh.xyh3);
+	l[0].x0 = xyh.x - xyh.xyh0 * multi;
+	l[0].y0 = xyh.y - xyh.xyh0 * multi;
+	l[0].x1 = (xyh.x + xyh.gap) - xyh.xyh1 * multi;
+	l[0].y1 = xyh.y - xyh.xyh1 * multi;
+	l[1].x0 = l[0].x0;
+	l[1].y0 = l[0].y0;
+	l[1].x1 = xyh.x - xyh.xyh2 * multi;
+	l[1].y1 = (xyh.y + xyh.gap) - xyh.xyh2 * multi;
+	l[2].x0 = l[1].x1;
+	l[2].y0 = l[1].y1;
+	l[2].x1 = xyh.x + xyh.gap - xyh.xyh3 * multi;
+	l[2].y1 = (xyh.y + xyh.gap) - xyh.xyh3 * multi;
+	l[3].x0 = l[0].x1;
+	l[3].y0 = l[0].y1;
+	l[3].x1 = l[2].x1;
+	l[3].y1 = l[2].y1;
+	line(m, l[0], xyh.xyh0 + xyh.xyh1);
+	line(m, l[1], xyh.xyh0 + xyh.xyh2);
+	line(m, l[2], xyh.xyh2 + xyh.xyh3);
+	line(m, l[3], xyh.xyh1 + xyh.xyh3);
 }
-static t_hm	ft_draw_helper(t_draw d, t_grid **cell, t_hm xyh)
+
+static t_hm		ft_draw_helper(t_draw d, t_grid **cell, t_hm xyh)
 {
 	xyh.xyh3 = cell[xyh.i][xyh.j].height;
 	xyh.xyh2 = xyh.xyh3;
@@ -99,7 +107,8 @@ static t_hm	ft_draw_helper(t_draw d, t_grid **cell, t_hm xyh)
 	}
 	return (xyh);
 }
-void		ft_draw(t_draw d, t_grid **cell, t_mlx m)
+
+void			ft_draw(t_draw d, t_grid **cell, t_mlx m)
 {
 	t_hm		xyh;
 

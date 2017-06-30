@@ -6,7 +6,7 @@
 /*   By: syoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/12 07:23:05 by syoung            #+#    #+#             */
-/*   Updated: 2017/06/22 11:53:16 by syoung           ###   ########.fr       */
+/*   Updated: 2017/06/30 06:24:43 by syoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static char		*ft_remalloc(char *s1, int size)
 	if (s2 == NULL)
 		s2 = NULL;
 	s2 = ft_memcpy(s2, s1, ft_strlen(s1));
-	//free(s1);
 	return (s2);
 }
 
@@ -79,9 +78,11 @@ static int		line_len(char *s, int ttlbytes)
 static int		ft_put_line(int i, int ttlbytes, char **line, char *buff2)
 {
 	int j;
+	int len;
 
+	len = line_len(&buff2[i], ttlbytes);
 	j = 0;
-	line[0] = (char *)malloc(sizeof(char)*(line_len((&buff2[i]), ttlbytes) + 1));
+	line[0] = (char *)malloc(sizeof(char) * (len + 1));
 	while (i < ttlbytes)
 	{
 		if (buff2[i] == '\n')

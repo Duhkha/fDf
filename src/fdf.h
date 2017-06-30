@@ -6,7 +6,7 @@
 /*   By: syoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 06:45:26 by syoung            #+#    #+#             */
-/*   Updated: 2017/06/29 06:45:27 by syoung           ###   ########.fr       */
+/*   Updated: 2017/06/30 08:14:33 by syoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "../minilibx_macos/mlx.h"
 # include <unistd.h>
 # include <math.h>
-# include <stdlib.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
 # include "../libft/get_next_line.h"
@@ -62,6 +61,10 @@ typedef struct	s_line
 	int			sy;
 	int			err;
 	int			e2;
+	int			x0;
+	int			y0;
+	int			x1;
+	int			y1;
 }				t_line;
 typedef	struct	s_read
 {
@@ -74,15 +77,21 @@ typedef	struct	s_read
 	int			i;
 	int			j;
 }				t_read;
-typedef struct  s_draw
+typedef struct	s_draw
 {
 	int			col_count;
 	int			row_count;
 	int			gap;
 }				t_draw;
+typedef struct	s_main
+{
+	t_mlx		m;
+	t_grid		**cell;
+	t_draw		d;
+}				t_main;
 t_grid			**ft_read(char *file, int *row_countp, int *col_countp);
 void			ft_draw(t_draw d, t_grid **cell, t_mlx m);
-void			line(t_mlx m, int x0, int y0, int x1, int y1, int color);
+void			line(t_mlx m, t_line l, int color);
 void			rotate(t_mlx m, int x, int y, int color);
 int				ext(int keycode, void *m);
 #endif

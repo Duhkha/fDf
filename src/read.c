@@ -6,7 +6,7 @@
 /*   By: syoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 06:45:36 by syoung            #+#    #+#             */
-/*   Updated: 2017/06/29 06:45:38 by syoung           ###   ########.fr       */
+/*   Updated: 2017/06/30 07:29:13 by syoung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@ static t_read	ft_read_count(char *file, t_read r)
 	close(r.fd);
 	return (r);
 }
-void	ft_read_helper(t_read r, int *row_countp, int *col_countp)
+
+void			ft_read_helper(t_read r, int *row_countp, int *col_countp)
 {
 	*row_countp = r.row_count;
 	*col_countp = r.col_count;
 	free(r.split);
 	close(r.fd);
 }
+
 t_grid			**ft_read(char *file, int *row_countp, int *col_countp)
 {
 	t_read	r;
@@ -41,7 +43,7 @@ t_grid			**ft_read(char *file, int *row_countp, int *col_countp)
 	r.fd = open(file, O_RDONLY);
 	cell = (t_grid **)malloc(sizeof(t_grid *) * (r.row_count + 1));
 	while (get_next_line(r.fd, &r.row))
-	{		
+	{
 		r.split = ft_strsplit((const char*)r.row, ' ');
 		free(r.row);
 		while (r.split[r.col_count] != NULL)
