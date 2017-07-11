@@ -14,7 +14,7 @@ MINILIBX_MACOS = ../minilibx_macos/libmlx.a
 
 FLAGS = $(MINILIBX_MACOS) -framework Opengl -framework Appkit -Werror -Wextra -Wall
 
-FLAGSLINUX = -L/usr/X11/lib -lmlx -lXext -lX11 -Werror -Wextra -Wall
+FLAGSLINUX = -L/usr/X11/lib -lmlx -lXext -lX11 -lm -Werror -Wextra -Wall
 
 all: $(NAME)
 
